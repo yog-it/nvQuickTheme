@@ -1,9 +1,9 @@
 {
-	"project": "nvQuickTheme",
-	"version": "2.2.1",
-	"author": "TK Sheppard &amp; David Poindexter",
-	"company": "nvisionative",
-	"url": "www.nvquicktheme.com",
-    "email": "support@nvisionative.com",
-    "description": "A DNN Theme Dev Framework"
+	"project": "QRCoder",
+	"version": "1.0.0",
+	"author": "Ryan Jagdfeld",
+	"company": "Yog-IT LLC",
+	"url": "www.yogit.com",
+    "email": "support@yogit.com",
+    "description": "The QR Coder Theme"
 }

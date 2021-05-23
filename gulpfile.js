@@ -22,47 +22,64 @@ var bs            = require('browser-sync').create(),
     
 var paths = {
   projectdetails: {
-    src: './project-details.json'
+    src: './project-details.json',
+  },
+  skins: {
+    src: './*.ascx',
+    site: '../../Website/Portals/_default/skins/'+project+'/'
+  },
+  partials: {
+    src: './partials/*',
+    site: '../../Website/Portals/_default/skins/'+project+'/partials/'
   },
   fonts: {
     src: './src/fonts/*',
-    dest: './dist/fonts/'
+    dest: './dist/fonts/',
+    site: '../../Website/Portals/_default/skins/'+project+'/fonts/'
   },
   faFonts: {
     src: './node_modules/@fortawesome/fontawesome-free/webfonts/*',
-    dest: './dist/webfonts/'
+    dest: './dist/webfonts/',
+    site: '../../Website/Portals/_default/skins/'+project+'/webfonts/'
   },
   faCss: {
     src: './node_modules/@fortawesome/fontawesome-free/css/all.min.css',
-    dest: './dist/css/'
+    dest: './dist/css/',
+    site: '../../Website/Portals/_default/skins/'+project+'/css/'
   },
   slimMenu: {
     src: './src/assets/jquery.slimmenu.min.js',
-    dest: './dist/js/'
+    dest: './dist/js/',
+    site: '../../Website/Portals/_default/skins/'+project+'/js/'
   },
   normalize: {
     src: './node_modules/normalize.css/normalize.css',
-    dest: './dist/css/'
+    dest: './dist/css/',
+    site: '../../Website/Portals/_default/skins/'+project+'/css/'
   },
   bsJs: {
     src: './node_modules/bootstrap/dist/js/bootstrap.bundle.min.*',
-    dest: './dist/js/'
+    dest: './dist/js/',
+    site: '../../Website/Portals/_default/skins/'+project+'/js/'
   },
   images: {
     src: './src/images/**/*.{jpg,jpeg,png,gif,svg}',
-    dest: './dist/images/'
+    dest: './dist/images/',
+    site: '../../Website/Portals/_default/skins/'+project+'/images/'
   },
   styles: {
     src: './src/scss/**/*.scss',
-    dest: './dist/css/'
+    dest: './dist/css/',
+    site: '../../Website/Portals/_default/skins/'+project+'/css/'
   },
   scripts: {
     src: './src/js/*.js',
-    dest: './dist/js/'
+    dest: './dist/js/',
+    site: '../../Website/Portals/_default/skins/'+project+'/js/'
   },
   containers: {
     src: './containers/*',
-    dest: '../../Containers/'+project+'/'
+    dest: '../../Website/Portals/_default/containers/'+project+'/'
   },
   manifest: {
     src: './manifest.dnn',
@@ -104,6 +121,7 @@ var paths = {
 function fontsInit() {
   return gulp.src(paths.fonts.src)
     .pipe(gulp.dest(paths.fonts.dest))
+    .pipe(gulp.dest(paths.fonts.site))
     .pipe(notify({message: '<%= file.relative %> distributed!', title : 'fontsInit', sound: false}));
 }
 
@@ -111,6 +129,7 @@ function fontsInit() {
 function faFontsInit() {
   return gulp.src(paths.faFonts.src)
     .pipe(gulp.dest(paths.faFonts.dest))
+    .pipe(gulp.dest(paths.faFonts.site))
     .pipe(notify({message: '<%= file.relative %> distributed!', title : 'faFontsInit', sound: false}));
 }
 
@@ -118,6 +137,7 @@ function faFontsInit() {
 function faCssInit() {
   return gulp.src(paths.faCss.src)
     .pipe(gulp.dest(paths.faCss.dest))
+    .pipe(gulp.dest(paths.faCss.site))
     .pipe(notify({message: '<%= file.relative %> distributed!', title : 'faCssInit', sound: false}));
 }
 
@@ -125,6 +145,7 @@ function faCssInit() {
 function slimMenuInit() {
   return gulp.src(paths.slimMenu.src)
     .pipe(gulp.dest(paths.slimMenu.dest))
+    .pipe(gulp.dest(paths.slimMenu.site))
     .pipe(notify({message: '<%= file.relative %> distributed!', title : 'slimMenuInit', sound: false}));
 }
 
@@ -136,6 +157,7 @@ function normalizeInit() {
   .pipe(rename({suffix: '.min'}))
   .pipe(autoprefixer())
   .pipe(gulp.dest(paths.normalize.dest, { sourcemaps: '.' }))
+  .pipe(gulp.dest(paths.normalize.site, { sourcemaps: '.' }))
   .pipe(notify({message: '<%= file.relative %> compiled and distributed!', title : 'normalizeInit', sound: false}));
 }
 
@@ -143,6 +165,7 @@ function normalizeInit() {
 function bsJsInit() {
   return gulp.src(paths.bsJs.src)
     .pipe(gulp.dest(paths.bsJs.dest))
+    .pipe(gulp.dest(paths.bsJs.site))
     .pipe(notify({message: '<%= file.relative %> distributed!', title : 'bsJsInit', sound: false}));
 }
 /*------------------------------------------------------*/
@@ -163,6 +186,7 @@ function images() {
       svgoPlugins: [{removeViewBox: true}]
     }))
 		.pipe(gulp.dest(paths.images.dest))
+    .pipe(gulp.dest(paths.images.site))
     .pipe(notify({message: '<%= file.relative %> optimized!', title : 'images', sound: false}));
 }
 /*------------------------------------------------------*/
@@ -181,6 +205,7 @@ function styles() {
   .pipe(rename({suffix: '.min'}))
   .pipe(autoprefixer())
   .pipe(gulp.dest(paths.styles.dest, { sourcemaps: '.' }))
+  .pipe(gulp.dest(paths.styles.site, { sourcemaps: '.' }))
   .pipe(notify({message: '<%= file.relative %> compiled and distributed!', title : 'styles', sound: false}));
 }
 /*------------------------------------------------------*/
@@ -198,6 +223,7 @@ function scripts() {
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(paths.scripts.dest, { sourcemaps: '.' }))
+    .pipe(gulp.dest(paths.scripts.site, { sourcemaps: '.' }))
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
     .pipe(notify({ message : '<%= file.relative %> minified!', title : "scripts", sound: false}));
@@ -215,6 +241,21 @@ function containers() {
   return gulp.src(paths.containers.src)
     .pipe(gulp.dest(paths.containers.dest))
     .pipe(notify({message: '<%= file.relative %> distributed!', title : 'containers', sound: false}));
+}
+
+// Copy skins from src/ to dist/
+function skins() {
+  return gulp.src(paths.skins.src)
+    .pipe(gulp.dest(paths.skins.site))
+    .pipe(notify({message: '<%= file.relative %> distributed!', title : 'skins', sound: false}));
+}
+
+// Copy partials from src/partials to dist/partials
+function partials() {
+  return gulp.src(paths.partials.src)
+    .pipe(replace('dist/', ''))
+    .pipe(gulp.dest(paths.partials.site))
+    .pipe(notify({message: '<%= file.relative %> distributed!', title : 'partials', sound: false}));
 }
 
 // Update manifest.dnn
@@ -312,7 +353,9 @@ function cleantemp() {
 function serve() {
   bs.init({
       proxy: "nvQuickTheme.loc"
-  });
+  }); 
+  gulp.watch(paths.partials.src, partials).on('change', bs.reload);
+  gulp.watch(paths.skins.src, skins).on('change', bs.reload);
   gulp.watch(paths.images.src, images).on('change', bs.reload);
   gulp.watch(paths.styles.src, styles).on('change', bs.reload);
   gulp.watch(paths.scripts.src, scripts).on('change', bs.reload);
@@ -321,6 +364,8 @@ function serve() {
 
 // gulp watch
 function watch() {
+  gulp.watch(paths.partials.src, partials);
+  gulp.watch(paths.skins.src, skins);
   gulp.watch(paths.images.src, images);
   gulp.watch(paths.styles.src, styles);
   gulp.watch(paths.scripts.src, scripts);
@@ -331,7 +376,7 @@ function watch() {
 var init = gulp.series(fontsInit, faFontsInit, faCssInit, slimMenuInit, normalizeInit, bsJsInit);
 
 // gulp build
-var build = gulp.series(cleandist, init, styles, scripts, images, containers, manifest);
+var build = gulp.series(cleandist, init, partials, skins, styles, scripts, images, containers, manifest);
 
 // gulp package
 var package = gulp.series(build, ziptemp, zippackage, cleantemp);
@@ -353,6 +398,8 @@ exports.bsJsInit = bsJsInit;
 exports.images = images;
 exports.styles = styles;
 exports.scripts = scripts;
+exports.partials = partials;
+exports.skins = skins;
 exports.containers = containers;
 exports.manifest = manifest;
 exports.cleandist = cleandist;
